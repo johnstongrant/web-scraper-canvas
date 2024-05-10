@@ -18,13 +18,19 @@ class Scraper:
     
     def convert_pages_to_markdown(self,pathname):
         cur_class = self.canvas.get_course(self.course)
-
+        print("Getting pages from: " + cur_class.name)
         pages = cur_class.get_pages()
+        num_of_pages = len([page for page in pages])
+
+        print("Converting " + str(num_of_pages) + " pages to markdown")
+
         for page in pages:
             new_page = cur_class.get_page(page.url)
             cleaned_up_page = md.markdownify(new_page.body)
-            f = open(pathname+page.title, "w")
+            f = open(pathname+page.title+".md", "w",)
             f.write(cleaned_up_page)
+        
+        print("Complete")
 
 # Grab your Canvas api key from user settings
 API_KEY = ""
@@ -38,4 +44,4 @@ csci5117 = Scraper(API_KEY,API_URL)
 csci5117.set_course(123456)
 
 # Pass the location you'd like to write to, files names will be specified by page name.
-csci5117.convert_pages_to_markdown("/example/path/Desktop")
+csci5117.convert_pages_to_markdown("/example/pathname/")
